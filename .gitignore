@@ -1,2 +1,4 @@
 key-secret
 *.pem
+*.csv
+__pycache__
