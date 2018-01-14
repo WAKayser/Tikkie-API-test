@@ -4,7 +4,7 @@ def get_tikkie(contacts, auth):
 	return contacts
 
 def tikkie_auth(issuer):
-	return'200'
+	return'57', '146'
 
 def tikkie_start(auth, api, name, mail, phone, share, iban, label):
 	return 3, 3, 3

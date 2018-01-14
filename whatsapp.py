@@ -3,7 +3,7 @@ from urllib.parse import urlencode, quote
 
 
 def get_text(info):
-	return "Beste " + info['name'] + ",\n Je huidige deb stand is " + str(info['debt']) + "euro.\nDit kan je aflossen via: " + info['link'] + " Met vriendelijke groet, \n Je thesaurier Wouter"
+	return "Beste " + info['name'] + ",\n Je huidige deb stand is " + str(info['debt']) + "euro.\nDit kan je aflossen via: " + info['link'] + " Met vriendelijke groet, \n Wouter"
 
 
 def open_link(text, number):

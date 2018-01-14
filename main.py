@@ -8,9 +8,10 @@ def main():
 	name = 'Wouter Kayser (ETV)'
 	mail = '3-etv@tudelft.nl'
 	share = False
+	phone = '31151781399'
 	iban = 'NL51ABNA0603041949'
 	label = 'ETV Spaarrekening'
-	
+
 	auth, api = tikkie_auth('Wouter Kayser (ETV)')
 	platform, user, bank = tikkie_start(auth, api, name, mail, 
 										phone, share, iban, label)
