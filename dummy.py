@@ -3,5 +3,8 @@ def get_tikkie(contacts, auth):
 		contacts[key]['link'] = "etv.tudelft.nl"
 	return contacts
 
-def tikkie_auth():
+def tikkie_auth(issuer):
 	return'200'
+
+def tikkie_start(auth, api, name, mail, phone, share, iban, label):
+	return 3, 3, 3
