@@ -4,20 +4,16 @@ import requests
 
 url = "https://api-sandbox.abnamro.com/v1/tikkie/platforms"
 
+
 def post(auth, key, url, payload):
-	headers = {'Authorization': auth, 'key': key}
+	headers = {'Authorization': "Bearer " + auth, 'API-Key': key}
 	p = requests.post(url, data=payload, headers=headers)
-	if p.status != 200:
-		print(p.status, p.json())
-		raise Exception()
 	return p.json()
 
 def get(auth, key, url):
-	headers = {'Authorization': auth, 'key': key}
+	headers = {'Authorization': "Bearer " + auth, 'API-Key': key}
+	print(headers)
 	p = requests.get(url, headers=headers)
-	if p.status != 200:
-		print(p.status, p.json())
-		raise Exception
 	return p.json()
 
 def post_platform(auth, key, name, phone, mail, share=False):
@@ -70,7 +66,8 @@ def tikkie_auth(issuer):
 	with open('key-secret', 'r') as file:
 	    key = file.readline()
 	    secret = file.readline()
-	    key, secret = key[:-1], secret[:-1]
+	
+	key, secret = key[:-1], secret[:-1]
 
 	url = "https://api-sandbox.abnamro.com/v1/oauth/token"
 
@@ -85,9 +82,10 @@ def tikkie_auth(issuer):
 	data['client_assertion_type'] = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
 	data['grant_type'] = 'client_credentials'
 	p = requests.post(url, data=data, headers=headers)
-	print(p.url, p.json())
 
-	return auth, key
+	response = p.json()
+	print(response)
+	return response['access_token'], key
 
 def tikkie_start(auth, api, name, mail, phone, share, iban, label):
 	plat_json = get_platform(auth, api)
@@ -107,3 +105,5 @@ def get_tikkie(contacts, auth, api, platform, user, bank):
 		contacts[key]['link'] = post_payment(auth, api, platform, user, bank,
 											 value , desc)
 	return contacts
+
+# tikkie_auth('ETV')
