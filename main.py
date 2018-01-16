@@ -1,25 +1,35 @@
 from exactreader import get_debts
 from dbreader import get_contact
 from dummy import get_tikkie, tikkie_start
-from tikkie import tikkie_auth, get_platform
+from tikkie import *
 from whatsapp import send_all
-from time import sleep
 
 
 def main():
-	name = 'Wouter Kayser (ETV)'
+	name = 'ETV'
 	mail = '3-etv@tudelft.nl'
 	share = False
-	phone = '31151781399'
+	phone = '0681606186'
 	iban = 'NL51ABNA0603041949'
 	label = 'ETV Spaarrekening'
 
 	auth, api = tikkie_auth('Wouter Kayser (ETV)')
-	print(auth, api)
-	sleep(10)
-	print(get_platform(auth, api))
-	# platform, user, bank = tikkie_start(auth, api, name, mail, 
-	# 									phone, share, iban, label)
+	print('auth, api', auth, api)
+
+	# print(post_platform(auth, api, name, phone, mail))
+	platform = get_platform(auth, api)
+	print('platform', platform)
+
+	# user, bank = post_user(auth, api, platform, name, phone, iban, label)
+	# print('user, bank', user, bank)
+	data = get_user(auth, api, platform)
+	user, bank = data['userToken'], data['bankAccounts'][0]['bankAccountToken']
+	print(user, bank)
+
+	value = 14.63
+	desc = 'Test'
+	link = post_payment(auth, api, platform, user, bank, value, desc)
+	print(link)
 	# debts = get_debts()
 	# data = get_contact(debts)
 	# data = get_tikkie(data, auth)
