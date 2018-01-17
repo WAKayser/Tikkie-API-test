@@ -5,6 +5,16 @@ from tikkie import *
 from whatsapp import send_all
 
 
+def sent_tikkies():
+	limit = 100
+	offs = 0
+	auth, api = tikkie_auth('Wouter Kayser (ETV)')
+	platform = get_platform(auth, api)
+	data = get_user(auth, api, platform)
+	user, bank = data['userToken'], data['bankAccounts'][0]['bankAccountToken']
+	print(get_payments(auth, api, platform, user, offs, limit))
+
+
 def main():
 	name = 'ETV'
 	mail = '3-etv@tudelft.nl'
@@ -14,26 +24,23 @@ def main():
 	label = 'ETV Spaarrekening'
 
 	auth, api = tikkie_auth('Wouter Kayser (ETV)')
-	print('auth, api', auth, api)
+	# print('auth, api', auth, api)
 
 	# print(post_platform(auth, api, name, phone, mail))
 	platform = get_platform(auth, api)
-	print('platform', platform)
+	# print('platform', platform)
 
 	# user, bank = post_user(auth, api, platform, name, phone, iban, label)
 	# print('user, bank', user, bank)
+
 	data = get_user(auth, api, platform)
 	user, bank = data['userToken'], data['bankAccounts'][0]['bankAccountToken']
-	print(user, bank)
+	# print('user, bank', user, bank)
 
-	value = 14.63
-	desc = 'Test'
-	link = post_payment(auth, api, platform, user, bank, value, desc)
-	print(link)
-	# debts = get_debts()
-	# data = get_contact(debts)
-	# data = get_tikkie(data, auth)
-	# send_all(data)
+	debts = get_debts()
+	data = get_contact(debts)
+	data = get_tikkie(data, auth, api, platform, user, bank)
+	send_all(data)
 
 
 if __name__ == '__main__':

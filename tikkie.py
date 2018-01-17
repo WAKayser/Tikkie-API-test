@@ -35,7 +35,7 @@ def post_user(auth, key, platform, name, phone, iban, label):
 	payload = {'name': name, 'phoneNumber': phone, 'iban': iban}
 	payload['bankAccountLabel'] = label
 	response = post(auth, key, link, payload)
-	return (response['userToken'], response['bankAccounts']['bankAccountToken'])
+	return (response['userToken'], response['bankAccounts'][0]['bankAccountToken'])
 
 #works
 def get_user(auth, api, platform):
@@ -47,13 +47,28 @@ def get_user(auth, api, platform):
 #broken
 def post_payment(auth, api, platform, user, bank, value, desc, curr='EUR'):
 	link = '/'.join([url, platform, 'users',
-					user, 'bank', bank,
+					user, 'bankaccounts', bank,
 					'paymentrequests'])
-	payload = {'amountInCents': int(value * 100), 'currency': curr, 'description': 'desc'}
+	payload = {'amountInCents': int(value * 100), 'currency': curr, 'description': desc}
 	response = post(auth, api, link, payload)
-	print(payload, link)
-	print(response)
-	return response['paymentRequestURL']
+	return response['paymentRequestUrl']
+
+def get_payments(auth, api, plat, user, offs, limit, start=False, end=False):
+	headers = {'Authorization': "Bearer " + auth}
+	headers['API-Key'] = api
+	link = '/'.join([url, plat, 'users', user, 'paymentrequests'])
+	query = {'offset': offs, 'limit': limit}
+	if start:
+		query['fromDate'] = start
+	if end:
+		query['toDate'] = end
+	p = requests.get(link, headers=headers, params=query )
+	return p.json()
+
+def get_payment(auth, api, platform, user, payment)
+	link = '/'.join([url, plat, 'users', user, 'paymentrequests', payment])
+	data = get(auth, api, link)
+	return response.json()
 
 # not implemented get payments and payment
 
