@@ -44,7 +44,7 @@ def get_user(auth, api, platform):
 	# print(data)
 	return data[0] 
 
-#broken
+#works
 def post_payment(auth, api, platform, user, bank, value, desc, curr='EUR'):
 	link = '/'.join([url, platform, 'users',
 					user, 'bankaccounts', bank,
@@ -69,12 +69,6 @@ def get_payment(auth, api, platform, user, payment)
 	link = '/'.join([url, plat, 'users', user, 'paymentrequests', payment])
 	data = get(auth, api, link)
 	return response.json()
-
-# not implemented get payments and payment
-
-def plat_check(plat_json, auth, key, name, phone, mail, share):
-	return post_platform(auth, key, name, phone, mail, share)
-	# Todo add checking
 
 def user_check(user_json, auth, key, platform, name, phone, iban, label):
 	post_user(auth, key, platform, name, phone, mail, iban, label)
@@ -111,7 +105,6 @@ def tikkie_auth(issuer):
 # wip
 def tikkie_start(auth, api, name, mail, phone, share, iban, label):
 	plat_json = get_platform(auth, api)
-	platform = plat_check(plat_json, auth, api, name, phone, mail, share)
 
 	user_json = get_user(auth, api, platform)
 	user, bank = user_check(user_json)
