@@ -1,6 +1,5 @@
 from exactreader import get_debts
 from dbreader import get_contact
-from dummy import get_tikkie, tikkie_start
 from tikkie import *
 from whatsapp import send_all
 
