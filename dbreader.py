@@ -15,9 +15,6 @@ def get_contact(debts):
 	contacts = {}
 	info = read_db()
 	for code, debt in debts.items():
-		try:
-			contacts[code] = info[code]
-			contacts[code]['debt'] = debt
-		except:
-			pass
+		contacts[code] = info[code]
+		contacts[code]['debt'] = debt
 	return contacts		
